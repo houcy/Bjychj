@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Bjychj</string>
+    <string name="desc_account">账号</string>
+    <string name="desc_pwd">密码</string>
+    <string name="desc_register">注册</string>
+    <string name="desc_forget_pwd">忘记密码?</string>
+    <string name="desc_login">登录</string>
+    <string name="desc_input_account">请输入账号</string>
+    <string name="desc_input_pwd">请输入密码</string>
 </resources>
