@@ -7,4 +7,5 @@
     <string name="desc_login">登录</string>
     <string name="desc_input_account">请输入账号</string>
     <string name="desc_input_pwd">请输入密码</string>
+    <string name="desc_name">姓名</string>
 </resources>

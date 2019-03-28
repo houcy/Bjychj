@@ -20,14 +20,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main {
-            res.srcDirs = [
-                    'src/main/res/layout/login',
-                    'src/main/res'
-            ]
-        }
-    }
+//    sourceSets {
+//        main {
+//            res.srcDirs = [
+//                    'src/main/res/layout/login',
+//                    'src/main/res'
+//            ]
+//        }
+//    }
 
 }
 
@@ -43,7 +43,7 @@ dependencies {
     //only Retrofit（只用Retrofit联网）
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-   //Rxjava and Retrofit（Retrofit+Rx需要添加的依赖）
+    //Rxjava and Retrofit（Retrofit+Rx需要添加的依赖）
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxjava:1.2.1'

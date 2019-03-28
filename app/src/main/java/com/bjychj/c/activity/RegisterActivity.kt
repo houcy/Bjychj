@@ -1,12 +1,13 @@
-package com.bjychj.c
+package com.bjychj.c.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.bjychj.c.R
 
-class MainActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_register)
     }
 }
