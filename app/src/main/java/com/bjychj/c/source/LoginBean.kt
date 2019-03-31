@@ -1,5 +1,7 @@
 package com.bjychj.c.source
 
-data class LoginBean (
-    var msg :String
+data class LoginBean(
+        var returnCode: String,
+        var returnMsg: String
+
 )

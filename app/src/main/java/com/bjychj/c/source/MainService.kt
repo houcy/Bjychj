@@ -10,9 +10,8 @@ interface MainService {
 
     //登录
     @FormUrlEncoded
-    @POST("")
-
-   fun getMainServer(@Field("loginName") loginName:Any?) : Observable<LoginBean>
+    @POST("user/login")
+    fun getMainServer(@Field("account") account: String, @Field("password") password: String): Observable<LoginBean>
 
 
 }

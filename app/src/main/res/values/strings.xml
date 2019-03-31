@@ -8,4 +8,8 @@
     <string name="desc_input_account">请输入账号</string>
     <string name="desc_input_pwd">请输入密码</string>
     <string name="desc_name">姓名</string>
+    <string name="desc_recommend">推荐人</string>
+    <string name="desc_input_phone">请填写手机号</string>
+    <string name="desc_input_code">输入验证码</string>
+    <string name="desc_input_pwd2">请输入登录密码</string>
 </resources>

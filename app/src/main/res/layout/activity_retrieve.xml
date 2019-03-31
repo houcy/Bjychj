@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    android:orientation="vertical"
-    tools:context=".activity.RegisterActivity">
+    android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -42,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/desc_register"
+            android:text="找回密码"
             android:textColor="@color/colorBlack"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -54,44 +52,10 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="35dp"
-        android:layout_weight="1">
-
-        <EditText
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/shape_bg_et"
-            android:hint="@string/desc_name"
-            android:paddingLeft="10dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <EditText
-            android:id="@+id/etRecommend"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/shape_bg_et"
-            android:hint="@string/desc_recommend"
-            android:paddingLeft="10dp" />
-    </LinearLayout>
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="35dp"
         android:layout_weight="1">
 
         <EditText
@@ -152,7 +116,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/shape_bg_et"
-            android:hint="@string/desc_input_pwd2"
+            android:hint="请设置新密码"
             android:inputType="textPassword"
             android:paddingLeft="10dp" />
     </LinearLayout>
@@ -174,6 +138,12 @@
             android:textColor="@color/colorWhite"
             android:textSize="16sp" />
     </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 
 
 </LinearLayout>
