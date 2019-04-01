@@ -16,7 +16,6 @@ interface RegisterService {
         , @Field("schoolId") schoolId: String, @Field("code") code: String
     ): Observable<UsualBean>
 
-    @FormUrlEncoded
     @GET("rest/user/getCode")
     fun getCode(@Query("account") account: String): Observable<CodeBean>
 }

@@ -1,28 +1,26 @@
 package com.bjychj.c.presenter
 
 import android.content.Context
-import android.text.TextUtils
 import com.bjychj.c.constants.Constants
-import com.bjychj.c.contract.RegisterContract
+import com.bjychj.c.contract.RetrieveContract
 import com.bjychj.c.source.CodeBean
-import com.bjychj.c.source.RegisterService
+import com.bjychj.c.source.RetrieveService
 import com.bjychj.c.source.UsualBean
 import com.bjychj.c.usual.NetWorkUtils
-import rx.Scheduler
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 /**
- * Create by yangyanjing on 2019/3/31 0031.
+ * Create by yangyanjing on 2019/4/1 0001.
  *@description:
  */
-class RegisterPresenter constructor(context: Context, view: RegisterContract.View) : RegisterContract.Presenter {
+class RetrievePresenter constructor(context: Context, view: RetrieveContract.View) : RetrieveContract.Presenter {
 
 
     private val mContext = context
     private val mView = view
-    private lateinit var mService: RegisterService
+    private lateinit var mService: RetrieveService
 
     init {
         mView.setPresenter(this)
@@ -30,7 +28,7 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
     }
 
     private fun initService() {
-        mService = NetWorkUtils.getRegisterService()
+        mService = NetWorkUtils.getRetrieveService()
     }
 
 
@@ -63,17 +61,15 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
             })
     }
 
-    override fun doRegister(account: String, password: String, name: String, schoolId: String, code: String) {
-        val observable = mService.getRegister(account, password, name, schoolId, code)
-        observable.observeOn(Schedulers.io())
+    override fun doRetrieve(account: String, newPwd: String, code: String) {
+        val observable = mService.doRetrieve(account, newPwd, code)
+        observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object :Subscriber<UsualBean>(){
+            .subscribe(object : Subscriber<UsualBean>(){
                 override fun onNext(t: UsualBean?) {
                     val returnCode = t!!.returnCode
                     when (returnCode) {
-                        Constants.ReturnSuccess -> mView.registerSuccess()
-                        "1003" -> mView.showToast("账号已存在")
-                        "1004" -> mView.showToast("学校ID不正确")
+                        Constants.ReturnSuccess -> mView.retrieveSuccess()
                         "1006" -> mView.showToast("验证码错误")
                         "1007" -> mView.showToast("验证码已过期")
                         else ->{
@@ -92,4 +88,5 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
 
             })
     }
+
 }
