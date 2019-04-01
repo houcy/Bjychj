@@ -3,7 +3,7 @@ package com.bjychj.c.presenter
 import android.content.Context
 import com.bjychj.c.constants.Constants
 import com.bjychj.c.contract.LoginContract
-import com.bjychj.c.source.LoginBean
+import com.bjychj.c.source.UsualBean
 import com.bjychj.c.source.MainService
 import com.bjychj.c.usual.NetWorkUtils
 import rx.Subscriber
@@ -32,8 +32,8 @@ class LoginPresenter constructor(context: Context, view: LoginContract.View) : L
         val observable = service.getMainServer(account, password)
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<LoginBean>() {
-                    override fun onNext(t: LoginBean?) {
+                .subscribe(object : Subscriber<UsualBean>() {
+                    override fun onNext(t: UsualBean?) {
                         val code = t!!.returnCode
 
                         when (code) {

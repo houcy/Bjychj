@@ -1,6 +1,6 @@
 package com.bjychj.c.source
 
-data class LoginBean(
+data class UsualBean(
         var returnCode: String,
         var returnMsg: String
 
