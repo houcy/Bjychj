@@ -10,7 +10,7 @@ import rx.Observable
 interface RegisterService {
     //注册
     @FormUrlEncoded
-    @POST("user/register")
+    @POST("rest/user/register")
     fun getRegister(
         @Field("account") account: String, @Field("password") password: String, @Field("name") name: String
         , @Field("schoolId") schoolId: String, @Field("code") code: String

@@ -41,10 +41,10 @@ class RetrieveActivity : AppCompatActivity(), RetrieveContract.View {
                     "请输入验证码"
                 )
 
-                TextUtils.equals(code, etCode.text.toString()) -> ToastUtil().showToastShort(
-                    this@RetrieveActivity,
-                    "验证码有误"
-                )
+//                TextUtils.equals(code, etCode.text.toString()) -> ToastUtil().showToastShort(
+//                    this@RetrieveActivity,
+//                    "验证码有误"
+//                )
 
                 TextUtils.isEmpty(etPwd.text.toString()) -> ToastUtil().showToastShort(
                     this@RetrieveActivity,

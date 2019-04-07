@@ -51,5 +51,6 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
 
     override fun loginSuccess() {
         //todo  登录成功
+        ToastUtil().showToastShort(this@MainActivity,"登录成功")
     }
 }

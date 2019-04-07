@@ -1,14 +1,13 @@
 package com.bjychj.c.presenter
 
 import android.content.Context
-import android.text.TextUtils
+import android.util.Log
 import com.bjychj.c.constants.Constants
 import com.bjychj.c.contract.RegisterContract
 import com.bjychj.c.source.CodeBean
 import com.bjychj.c.source.RegisterService
 import com.bjychj.c.source.UsualBean
 import com.bjychj.c.usual.NetWorkUtils
-import rx.Scheduler
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -65,7 +64,8 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
 
     override fun doRegister(account: String, password: String, name: String, schoolId: String, code: String) {
         val observable = mService.getRegister(account, password, name, schoolId, code)
-        observable.observeOn(Schedulers.io())
+
+        observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object :Subscriber<UsualBean>(){
                 override fun onNext(t: UsualBean?) {
@@ -88,6 +88,7 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
 
                 override fun onError(e: Throwable?) {
                     mView.showToast("请求错误,请稍后重试")
+                    Log.e("======",e.toString())
                 }
 
             })

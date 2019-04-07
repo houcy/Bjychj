@@ -48,10 +48,10 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
                     this@RegisterActivity,
                     "请输入密码"
                 )
-                TextUtils.equals(code, etCode.text.toString()) -> ToastUtil().showToastShort(
-                    this@RegisterActivity,
-                    "验证码有误"
-                )
+//                TextUtils.equals(code, etCode.text.toString()) -> ToastUtil().showToastShort(
+//                    this@RegisterActivity,
+//                    "验证码有误"
+//                )
 
                 else -> {
                     presenter.doRegister(
@@ -84,6 +84,7 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
     }
 
     override fun registerSuccess() {
-        // todo  注册成功
+        ToastUtil().showToastShort(this@RegisterActivity,"注册成功")
+        finish()
     }
 }

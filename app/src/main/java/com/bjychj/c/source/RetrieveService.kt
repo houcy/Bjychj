@@ -13,5 +13,5 @@ interface RetrieveService {
 
     @FormUrlEncoded
     @POST("rest/user/resetPassword")
-    fun doRetrieve(@Field("account") account: String, newPwd: String, code: String): Observable<UsualBean>
+    fun doRetrieve(@Field("account") account: String, @Field("newPwd")newPwd: String,@Field("code") code: String): Observable<UsualBean>
 }
