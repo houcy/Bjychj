@@ -6,17 +6,20 @@ import android.text.TextUtils
 import com.bjychj.c.R
 import com.bjychj.c.contract.RegisterContract
 import com.bjychj.c.presenter.RegisterPresenter
+import com.bjychj.c.utils.CountTimer
 import com.bjychj.c.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity(), RegisterContract.View {
     private lateinit var presenter: RegisterContract.Presenter
     private var code: String = ""
+    private var mCountTimer: CountTimer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         RegisterPresenter(this, this)
+        mCountTimer = CountTimer(60000, 1000, btnCode)
 
         btnCode.setOnClickListener {
             when {
@@ -25,7 +28,10 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
                     "请输入手机号"
                 )
                 etPhone.text.toString().length != 11 -> ToastUtil().showToastShort(this@RegisterActivity, "请输入正确手机号")
-                else -> presenter.getCode(etPhone.text.toString())
+                else -> {
+                    mCountTimer!!.start()
+                    presenter.getCode(etPhone.text.toString())
+                }
             }
         }
 
@@ -48,6 +54,10 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
                     this@RegisterActivity,
                     "请输入密码"
                 )
+                TextUtils.isEmpty(etRecommend.text.toString()) -> ToastUtil().showToastShort(
+                    this@RegisterActivity,
+                    "请输入推荐人"
+                )
 //                TextUtils.equals(code, etCode.text.toString()) -> ToastUtil().showToastShort(
 //                    this@RegisterActivity,
 //                    "验证码有误"
@@ -58,9 +68,9 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
                         etPhone.text.toString(),
                         etPwd.text.toString(),
                         etName.text.toString(),
-                        "0",
+                        etRecommend.text.toString(),
                         etCode.text.toString()
-                    )  //todo  schoolId 无输入地方
+                    )
                 }
             }
         }
@@ -69,6 +79,11 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
             finish()
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCountTimer!!.cancel()
     }
 
     override fun setPresenter(presenter: RegisterContract.Presenter) {
@@ -84,7 +99,7 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
     }
 
     override fun registerSuccess() {
-        ToastUtil().showToastShort(this@RegisterActivity,"注册成功")
+        ToastUtil().showToastShort(this@RegisterActivity, "注册成功")
         finish()
     }
 }

@@ -3,16 +3,14 @@ package com.bjychj.c.activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.bjychj.c.R
-import com.bjychj.c.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_js_test.*
 
 
 class JsTestActivity : AppCompatActivity() {
-    public var mWebView: WebView? = null
+     var mWebView: WebView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

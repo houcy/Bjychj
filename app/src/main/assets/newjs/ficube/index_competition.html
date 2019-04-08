@@ -1,0 +1,159 @@
+﻿<html lang="hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>ficube</title>
+    <link rel="stylesheet" type="text/css" href="color_competition.css"/>
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="css/share.css"/>
+    <script type="text/javascript" src="../blockly_compressed.js"></script>
+    <script type="text/javascript" src="../blocks_compressed.js"></script>
+    <script type="text/javascript" src="../arduino_compressed.js"></script>
+    <script type="text/javascript" src="storage.js"></script>
+    <script type="text/javascript" src="ficube.js"></script>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/popup_list.js"></script>
+</head>
+<body>
+<table height="100%" width="100%" id="table_whole">
+    <tr style="display: none">
+        <td colspan=3>
+            <table width="100%">
+                <tr id="tabRow" height="1em">
+                    <td style="vertical-align: center;" id="tab_blocks" class="tabon"><img style="vertical-align: middle" width="25" /><span id="span_blocks"></span>
+                    </td>
+                    <td class="tabmin">&nbsp;</td>
+                    <td style="vertical-align: center; text-align: center;" id="tab_arduino" class="taboff"><span id="span_arduino">Code</span></td>
+                    <td class="tabmin">&nbsp;</td>
+                    <td class="tabcoyright"><span id="copyright" style="font-family: arial; font-size: 12px; color: #999;"></span>
+                    </td>
+                    <td class="tabmode"></td>
+                    <td class="tabmin"><input onclick="Blockly.mainWorkspace.undo(0);" name="undo" type="image" title="undo(ctrl+z)"  style="padding: 5px;" onmouseover="this.src='media/undo1.png'" onmousedown="this.src='media/undo2.png'" onmouseup="this.src='media/undo1.png'" onmouseout="this.src='media/undo.png'" width="20" height="20" border="0">
+                    </td>
+                    <td class="tabmin" style="padding-right: 20px"><input onclick="Blockly.mainWorkspace.undo(1);" name="redo" type="image" title="redo(ctrl+y)"  style="padding: 5px" onmouseover="this.src='media/redo1.png'" onmousedown="this.src='media/redo2.png'" onmouseup="this.src='media/redo1.png'" onmouseout="this.src='media/redo.png'" width="20" height="20" border="0"></td>
+                    <td class="tabmin">
+                        <select id="languageMenu"></select>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td height="100%" width="75%" id="content_area"></td>
+        <td style="display: none; height: 100%; width: 0.3%; background: #ddd; cursor: w-resize;" id="mid_td"></td>
+        <td width="25%" style="background-color: #eee; display: none;" id="side_code_parent">
+            <pre id="side_code" wrap="off" class="prettyprint" readonly></pre>
+        </td>
+        <!--<div id="sidebar" class="right-top" onclick="sidecodeClick()"></div>-->
+    </tr>
+</table>
+<div id="content_blocks" class="content"></div>
+<textarea id="content_arduino" class="prettyprint content" wrap="off" contenteditable="true"></textarea>
+<xml id="toolbox" style="display: none">
+    <!--air-->
+    <category name="AIR"  title="air" colour="#4984cf">
+        <!--<block type="air_start"></block>-->
+        <!--<block type="air_pattern1">
+            <field name="AIR_PATTERN1_PARAM1">0</field>
+        </block>-->
+        <block type="air_pattern2">
+            <field name="AIR_PATTERN2_PARAM1">1</field>
+        </block>
+        <!--	<block type="air_pattern3">
+                <field name="AIR_PATTERN3_PARAM1">1</field>
+            </block>-->
+        <block type="air_pattern4">
+            <field name="AIR_PATTERN4_PARAM1">1</field>
+        </block>
+        <block type="air_get_state1">
+            <field name="AIR_GET_STATE1_PARAM1">2</field>
+        </block>
+        <block type="air_get_state2">
+            <field name="AIR_GET_STATE2_PARAM1">1</field>
+        </block>
+        <block type="air_get_state3">
+            <field name="AIR_GET_STATE3_PARAM1">1</field>
+        </block>
+        <block type="air_set_delay">
+            <field name="AIR_SET_DELAY_PARAM1">10</field>
+        </block>
+        <block type="air_set_loop">
+            <field name="AIR_SET_LOOP_PARAM1">5</field>
+        </block>
+        <block type="air_set_if_else">
+            <field name="AIR_SET_IF_ELSE_PARAM2">1</field>
+            <value name="AIR_SET_IF_ELSE_PARAM1">
+                <shadow type="math_number">
+                    <field name="MATH_NUMBER_PARAM1">0</field>
+                </shadow>
+            </value>
+            <value name="AIR_SET_IF_ELSE_PARAM3">
+                <shadow type="math_number">
+                    <field name="MATH_NUMBER_PARAM1">0</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="air_set_all_state">
+            <field name="AIR_SET_ALL_STATE_PARAM2">0</field>
+            <field name="AIR_SET_ALL_STATE_PARAM3">0.2</field>
+        </block>
+        <block type="air_set_all_light">
+            <field name="AIR_SET_ALL_LIGHT_PARAM1">0</field>
+            <field name="AIR_SET_ALL_LIGHT_PARAM2">100</field>
+        </block>
+    </category>
+    <!--RGB-->
+    <category name="RGB"  title="rgb" colour="#4984cf">
+        <block type="rgb_set_all_light">
+            <field name="RGB_SET_ALL_LIGHT_PARAM1">0</field>
+            <field name="RGB_SET_ALL_LIGHT_PARAM2">100</field>
+        </block>
+        <block type="rgb_set_color">
+            <field name="RGB_SET_COLOR_PARAM1">#ff0000</field>
+        </block>
+        <block type="rgb_set_gradual">
+            <field name="RGB_SET_GRADUAL_PARAM1">5</field>
+            <field name="RGB_SET_GRADUAL_PARAM2">#3366ff</field>
+            <field name="RGB_SET_GRADUAL_PARAM3">#ff0000</field>
+        </block>
+    </category>
+    <!--光敏-->
+    <category name="光敏"  title="photosensitive" colour="#4984cf">
+        <block type="photosensitive_get_value"></block>
+    </category>
+    <!--蜂鸣器-->
+    <category name="蜂鸣器"  title="buzzer" colour="#4984cf">
+        <block type="buzzer_set_all_light">
+            <field name="BUZZER_SET_ALL_LIGHT_PARAM1">0</field>
+            <field name="BUZZER_SET_ALL_LIGHT_PARAM2">0.25</field>
+        </block>
+        <block type="buzzer_set_music">
+            <field name="BUZZER_SET_MUSIC_PARAM1">3</field>
+        </block>
+    </category>
+    <!--LED-->
+    <category name="高亮LED"  title="led" colour="#4984cf">
+        <block type="led_set_all_light">
+            <field name="LED_SET_ALL_LIGHT_PARAM1">0</field>
+            <field name="LED_SET_ALL_LIGHT_PARAM2">100</field>
+        </block>
+        <block type="led_set_gradual">
+            <field name="LED_SET_ALL_LIGHT_PARAM1">0</field>
+            <field name="LED_SET_ALL_LIGHT_PARAM2">5</field>
+            <field name="LED_SET_ALL_LIGHT_PARAM3">100</field>
+            <field name="LED_SET_ALL_LIGHT_PARAM4">10</field>
+        </block>
+    </category>
+    <!--红外-->
+    <category name="红外"  title="infrared" colour="#4984cf">
+        <block type="infrared_set_sign">
+            <field name="INFRARED_SET_SIGN_PARAM1">1</field>
+        </block>
+        <block type="infrared_set_txt">
+            <field name="INFRARED_SET_TXT_PARAM1">2</field>
+        </block>
+    </category>
+</xml>
+<div id="popup_list"></div>
+</body>
+</html>

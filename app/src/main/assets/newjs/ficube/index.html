@@ -1,0 +1,250 @@
+﻿<html lang="hans">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>demo</title>
+		<link rel="stylesheet" type="text/css" href="color.css" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<link rel="stylesheet" type="text/css" href="css/share.css" />
+		<script type="text/javascript" src="../blockly_compressed.js"></script>
+		<script type="text/javascript" src="../blocks_compressed.js"></script>
+		<script type="text/javascript" src="../arduino_compressed.js"></script>
+		<script type="text/javascript" src="storage.js"></script>
+		<script type="text/javascript" src="ficube.js?a=1"></script>
+		<script src="js/jquery-1.11.3.min.js"></script>
+		<script src="js/popup_list.js"></script>
+		<script src="./xmltojson.js"></script>
+		<style>
+			.blocklyToolboxDiv{
+				background-color: #fff;
+			}
+			#\:1 .blocklyTreeRow{
+				background-color: #FA5BDC;
+			}
+			#\:2 .blocklyTreeRow{
+				background-color: #5BC0F6;
+			}
+			#\:3 .blocklyTreeRow{
+				background-color: #F6943B;
+			}
+			#\:4 .blocklyTreeRow{
+				background-color: #68C84A;
+			}
+			#\:5 .blocklyTreeRow{
+				background-color: #9C52C1;
+			}
+			#\:6 .blocklyTreeRow{
+				background-color: #36D0B8;
+			}															
+		</style>
+	</head>
+	<body>
+	<table height="100%" width="100%" id="table_whole">
+		<tr style="display: none">
+			<td colspan=3>
+				<table width="100%">
+					<tr id="tabRow" height="1em">
+						<td style="vertical-align: center;" id="tab_blocks" class="tabon"><img style="vertical-align: middle" width="25" /><span id="span_blocks"></span>
+						</td>
+						<td class="tabmin">&nbsp;</td>
+						<td style="vertical-align: center; text-align: center;" id="tab_arduino" class="taboff"><span id="span_arduino">Code</span></td>
+						<td class="tabmin">&nbsp;</td>
+						<td class="tabcoyright"><span id="copyright" style="font-family: arial; font-size: 12px; color: #999;"></span>
+						</td>
+						<td class="tabmode"></td>
+						<td class="tabmin"><input onclick="Blockly.mainWorkspace.undo(0);" name="undo" type="image" title="undo(ctrl+z)"  style="padding: 5px;" onmouseover="this.src='media/undo1.png'" onmousedown="this.src='media/undo2.png'" onmouseup="this.src='media/undo1.png'" onmouseout="this.src='media/undo.png'" width="20" height="20" border="0">
+						</td>
+						<td class="tabmin" style="padding-right: 20px"><input onclick="Blockly.mainWorkspace.undo(1);" name="redo" type="image" title="redo(ctrl+y)"  style="padding: 5px" onmouseover="this.src='media/redo1.png'" onmousedown="this.src='media/redo2.png'" onmouseup="this.src='media/redo1.png'" onmouseout="this.src='media/redo.png'" width="20" height="20" border="0"></td>
+						<td class="tabmin">
+							<select id="languageMenu"></select>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td height="100%" width="75%" id="content_area"></td>
+			<td style="display: none; height: 100%; width: 0.3%; background: #ddd; cursor: w-resize;" id="mid_td"></td>
+			<td width="25%" style="background-color: #eee; display: none;" id="side_code_parent">
+				<pre id="side_code" wrap="off" class="prettyprint" readonly></pre>
+			</td>
+			<div id="sidebar" class="right-top" onclick="sidecodeClick()"></div>
+		</tr>
+	</table>
+	<div id="mytest" style="position: fixed;z-index: 10000;bottom: 4%;left:0.5rem"><img src="icon/starticon.png" style="width: 6rem" alt=""></div>
+	<div id="content_blocks" class="content"></div>
+	<textarea id="content_arduino" class="prettyprint content" wrap="off" contenteditable="true"></textarea>
+	<xml id="toolbox" style="display: none">
+		<!--开始-->
+		<category name="开始"  title="starts" colour="#FA5BDC">
+			<block type="starts">
+				<field name="START">1</field>
+			</block>
+			<block type="starts2">
+				<field name="START2">1</field>
+			</block>			
+		</category>
+		<!--灯光-->
+		<category name="灯光"  title="light" colour="#5BC0F6">
+			<block type="rgb_light">
+				<field name="LIGHT_SET_RGB">1</field>
+			</block>
+			<block type="post_light">
+				<field name="LIGHT_SET_POST">0</field>
+			</block>
+			<block type="led_light">
+				<field name="LIGHT_SET_LED">100</field>
+			</block>
+			<block type="rgb_light_on">
+				<field name="LIGHT_SET_RGB_ON">1</field>
+			</block>
+			<block type="led_light_on">
+				<field name="LED_SET_LED_ON">1</field>
+			</block>		
+			<!-- 蜂鸣器暂时放在这个里面 -->
+			<block type="led_buzzer">
+				<field name="LED_SET_LED_BUZZER">1</field>
+			</block>
+							
+		</category>
+		<!--电机-->
+		<category name="电机"  title="electric" colour="#F6943B">
+			<block type="electric_set">
+				<field name="ELECTRIC_SET">A</field>
+				<field name="ELECTRIC_DIRECTION">1</field>
+				<field name="ELECTRIC_SPEED">50</field>
+				<field name="ELECTRIC_TIME_FEN">1</field>
+				
+				<field name="ELECTRIC_TIME">1</field>
+				<field name="ELECTRIC_TIME_HAO">1</field>
+			</block>
+			<block type="electric_stop">
+				<field name="ELECTRIC_STOP">A</field>
+			</block>
+		</category>
+		<!--时间-->
+		<category name="时间"  title="mytime" colour="#68C84A">
+			<block type="mytime">
+				<field name="MYTIME">10</field>
+			</block>
+		</category>
+		<!--控制-->
+		<category name="控制"  title="control" colour="#9C52C1">
+			<block type="control_set_loop">
+				<field name="CONTROL_SET_LOOP_PARAM1">5</field>
+			</block>
+			<block type="control_set_if_else">
+				<field name="CONTROL_SET_IF_ELSE_PARAM1">1</field>
+				<field name="CONTROL_SET_IF_ELSE_PARAM2">100</field>>
+			</block>
+			<block type="gxqd_set_if_else">
+				<field name="GXQD_SET_IF_ELSE_PARAM1">1</field>
+				<field name="GXQD_SET_IF_ELSE_PARAM2">100</field>
+				</value>
+			</block>
+			<block type="sydx_set_if_else">
+				<field name="SYDX_SET_IF_ELSE_PARAM1">1</field>
+				<field name="SYDX_SET_IF_ELSE_PARAM2">100</field>
+
+			</block>	
+
+			<block type="control_set_if">
+				<field name="CONTROL_SET_IF_PARAM1">1</field>
+				<field name="CONTROL_SET_IF_PARAM2">100</field>
+			</block>
+			<block type="gxqd_set_if">
+				<field name="GXQD_SET_IF_PARAM1">1</field>
+				<field name="GXQD_SET_IF_PARAM2">100</field>
+			</block>
+			<block type="sydx_set_if">
+				<field name="SYDX_SET_IF_PARAM1">1</field>
+				<field name="SYDX_SET_IF_PARAM2">50</field>
+			</block>
+			
+			
+			<!-- 按钮 -->
+			<block type="sydx_set_ok">
+				<field name="GRAVITY_IF_PARAM1">单击</field>
+			</block>
+			<!-- 复杂按钮	 -->
+			<block type="sydx_set_if_ok">
+				<field name="GRAVITY_IF_SET_PARAM1">单击</field>
+				
+			</block>
+		
+		<!-- 电位器	 -->
+			<block type="sydx_set_ok_potentiometer">
+				<field name="POTEN_IF_SET_PARAM1">1</field>
+				<field name="POTEN_IF_SET_PARAM2">100</field>
+			</block>
+		
+		<!-- 电位器复杂	 -->
+			<block type="sydx_set_if_ok_potentiometer">
+				<field name="POTEN_IF_SET_IF_PARAM1">1</field>
+				<field name="POTEN_IF_SET_IF_PARAM2">100</field>
+			</block>
+		<!-- 运动感知 -->	
+			<block type="sydx_set_ok_motion">
+				<field name="MOTION_IF_SET_PARAM1">1</field>
+				
+			</block>
+		
+		<!-- 运动感知 复杂-->	
+			<block type="sydx_set_if_ok_motion">
+				<field name="MOTION_IF_SET_IF_PARAM1">1</field>
+				
+			</block>
+				
+		
+		<!--重力感应	 -->
+			<block type="sydx_set_ok_gravity">
+				<field name="GRAVITY_IF_SET_PARAM1">1</field>
+				<field name="GRAVITY_IF_SET_PARAM2">100</field>
+			</block>
+		
+		<!-- 重力感应复杂	 -->
+			<block type="sydx_set_if_ok_gravity">
+				<field name="GRAVITY_IF_SET_IF_PARAM1">1</field>
+				<field name="GRAVITY_IF_SET_IF_PARAM2">100</field>
+			</block>
+				
+			
+		<!-- 自锁开关 -->
+			<block type="sydx_set_ok_self">
+				<field name="SELF_IF_PARAM1">1</field>
+			</block>
+			<!-- 复杂自锁开关	 -->
+			<block type="sydx_set_if_ok_self">
+				<field name="SELF_IF_SET_PARAM1">1</field>
+				
+			</block>										
+		</category>	
+		<!--变量-->
+		<category name="变量"  title="vars" colour="#36D0B8">
+
+		</category>			
+	</xml>	
+	<div id="popup_list"></div>
+	</body>
+
+	<script>
+
+		document.getElementById("mytest").addEventListener('click',function(){
+		    var xml = Blockly.Xml.workspaceToDom(Code.workspace);
+		    // var xmlstr = Blockly.Xml.domToText(xml);
+		    var jsonobj = toJson(xml);
+
+		 //    $.ajax({
+			// 	type: 'POST',
+			// 	url: 'test.php',
+			// 	data: {jsonobj:jsonobj},
+			// 	// dataType: json,
+			// 	success: function(){
+
+			// 	}
+			// });
+		    console.log(JSON.stringify(jsonobj));
+		    window.jimudemo.getBlockAllStatus(JSON.stringify(jsonobj));
+		})	
+	</script>
+</html>

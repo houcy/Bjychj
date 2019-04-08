@@ -6,17 +6,20 @@ import android.text.TextUtils
 import com.bjychj.c.R
 import com.bjychj.c.contract.RetrieveContract
 import com.bjychj.c.presenter.RetrievePresenter
+import com.bjychj.c.utils.CountTimer
 import com.bjychj.c.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_retrieve.*
 
 class RetrieveActivity : AppCompatActivity(), RetrieveContract.View {
     private lateinit var mPresenter: RetrieveContract.Presenter
     private var code = ""
+    private var mCountTimer: CountTimer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_retrieve)
 
         RetrievePresenter(this, this)
+       mCountTimer =  CountTimer(60000,1000,btnCode)
 
         btnCode.setOnClickListener {
             when {
@@ -25,7 +28,10 @@ class RetrieveActivity : AppCompatActivity(), RetrieveContract.View {
                     "请输入手机号"
                 )
                 etPhone.text.toString().length != 11 -> ToastUtil().showToastShort(this@RetrieveActivity, "请输入正确手机号")
-                else -> mPresenter.getCode(etPhone.text.toString())
+                else -> {
+                    mCountTimer!!.start()
+                    mPresenter.getCode(etPhone.text.toString())
+                }
             }
         }
 
@@ -62,6 +68,11 @@ class RetrieveActivity : AppCompatActivity(), RetrieveContract.View {
         }
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCountTimer!!.cancel()
     }
 
     override fun setPresenter(presenter: RetrieveContract.Presenter) {

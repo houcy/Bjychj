@@ -1,56 +1,62 @@
 package com.bjychj.c.activity
 
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
+import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
 import com.bjychj.c.R
-import com.bjychj.c.contract.LoginContract
-import com.bjychj.c.presenter.LoginPresenter
 import com.bjychj.c.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), LoginContract.View {
-    private var presenter: LoginContract.Presenter? = null
+class MainActivity : AppCompatActivity() {
+    var mWebView: WebView? = null
+    private var mExitTime: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        LoginPresenter(this, this)
+        mWebView = webView
 
-        //注册
-        tvRegister.setOnClickListener {
-            val intent = Intent()
-            intent.setClass(this@MainActivity, RegisterActivity::class.java)
-            startActivity(intent)
-        }
+        val webSettings = mWebView!!.settings
+        //设置与js调用的权限
+        webSettings.javaScriptEnabled = true
+        //载入js代码
+        mWebView!!.loadUrl("file:///android_asset/newjs/ficube/index.html")
 
-        //忘记密码
-        tvForgetPwd.setOnClickListener {
-            val intent = Intent()
-            intent.setClass(this@MainActivity, RetrieveActivity::class.java)
-            startActivity(intent)
-        }
 
-        btnLogin.setOnClickListener {
-            if (TextUtils.isEmpty(etAccount.text.toString()) || TextUtils.isEmpty(etPwd.text.toString())) {
-                ToastUtil().showToastShort(this@MainActivity, "请输入账号或密码")
+        //js调用Android
+        mWebView!!.addJavascriptInterface(JsHook(this@MainActivity), "hello")
+
+
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis() - mExitTime > 2000) {
+                ToastUtil().showToastShort(this@MainActivity, "再按一次退出程序")
+                mExitTime = System.currentTimeMillis()
             } else {
-                presenter!!.doLogin(etAccount.text.toString(),etPwd.text.toString())
+                finish()
             }
+            return true
         }
+        return super.onKeyDown(keyCode, event)
     }
 
-    override fun setPresenter(presenter: LoginContract.Presenter) {
-        this.presenter = presenter
-    }
+    inner class JsHook(context: Context) {
 
-    override fun showToast(msg: String) {
-        ToastUtil().showToastShort(this@MainActivity, msg)
-    }
+        private val context = context
+        @JavascriptInterface
+        fun showFromJs(msg: String) {
+            mWebView!!.post {
 
-    override fun loginSuccess() {
-        //todo  登录成功
-        ToastUtil().showToastShort(this@MainActivity,"登录成功")
+                mWebView!!.loadUrl("javascript:show('" + "js调用Android" + "')")
+            }
+
+        }
+
     }
 }
