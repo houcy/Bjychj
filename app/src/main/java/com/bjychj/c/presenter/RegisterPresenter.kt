@@ -34,11 +34,13 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
 
 
     override fun getCode(account: String) {
+        mView.showLoadingDialog()
         val observable = mService.getCode(account)
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Subscriber<CodeBean>(){
                 override fun onNext(t: CodeBean?) {
+                    mView.hideLoadingDialog()
                     val code = t!!.returnCode
                     when (code) {
                         Constants.ReturnSuccess -> mView.initCode(t.code)
@@ -56,6 +58,7 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
                 }
 
                 override fun onError(e: Throwable?) {
+                    mView.hideLoadingDialog()
                     mView.showToast("请求错误,请稍后重试")
                 }
 
@@ -63,12 +66,14 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
     }
 
     override fun doRegister(account: String, password: String, name: String, schoolId: String, code: String) {
+        mView.showLoadingDialog()
         val observable = mService.getRegister(account, password, name, schoolId, code)
 
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object :Subscriber<UsualBean>(){
                 override fun onNext(t: UsualBean?) {
+                    mView.hideLoadingDialog()
                     val returnCode = t!!.returnCode
                     when (returnCode) {
                         Constants.ReturnSuccess -> mView.registerSuccess()
@@ -87,8 +92,8 @@ class RegisterPresenter constructor(context: Context, view: RegisterContract.Vie
                 }
 
                 override fun onError(e: Throwable?) {
+                    mView.hideLoadingDialog()
                     mView.showToast("请求错误,请稍后重试")
-                    Log.e("======",e.toString())
                 }
 
             })

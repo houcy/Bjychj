@@ -7,6 +7,7 @@ import com.bjychj.c.R
 import com.bjychj.c.contract.RetrieveContract
 import com.bjychj.c.presenter.RetrievePresenter
 import com.bjychj.c.utils.CountTimer
+import com.bjychj.c.utils.LoadingDialog
 import com.bjychj.c.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_retrieve.*
 
@@ -14,18 +15,20 @@ class RetrieveActivity : AppCompatActivity(), RetrieveContract.View {
     private lateinit var mPresenter: RetrieveContract.Presenter
     private var code = ""
     private var mCountTimer: CountTimer? = null
+    private lateinit var loadingDialog: LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_retrieve)
+        loadingDialog = LoadingDialog(this@RetrieveActivity, R.style.MyDialog)
 
         RetrievePresenter(this, this)
-       mCountTimer =  CountTimer(60000,1000,btnCode)
+        mCountTimer = CountTimer(60000, 1000, btnCode)
 
         btnCode.setOnClickListener {
             when {
                 TextUtils.isEmpty(etPhone.text.toString()) -> ToastUtil().showToastShort(
-                    this@RetrieveActivity,
-                    "请输入手机号"
+                        this@RetrieveActivity,
+                        "请输入手机号"
                 )
                 etPhone.text.toString().length != 11 -> ToastUtil().showToastShort(this@RetrieveActivity, "请输入正确手机号")
                 else -> {
@@ -38,13 +41,13 @@ class RetrieveActivity : AppCompatActivity(), RetrieveContract.View {
         btnNext.setOnClickListener {
             when {
                 TextUtils.isEmpty(etPhone.text.toString()) -> ToastUtil().showToastShort(
-                    this@RetrieveActivity,
-                    "请输入手机号"
+                        this@RetrieveActivity,
+                        "请输入手机号"
                 )
                 etPhone.text.toString().length != 11 -> ToastUtil().showToastShort(this@RetrieveActivity, "请输入正确手机号")
                 TextUtils.isEmpty(etCode.text.toString()) -> ToastUtil().showToastShort(
-                    this@RetrieveActivity,
-                    "请输入验证码"
+                        this@RetrieveActivity,
+                        "请输入验证码"
                 )
 
 //                TextUtils.equals(code, etCode.text.toString()) -> ToastUtil().showToastShort(
@@ -53,8 +56,8 @@ class RetrieveActivity : AppCompatActivity(), RetrieveContract.View {
 //                )
 
                 TextUtils.isEmpty(etPwd.text.toString()) -> ToastUtil().showToastShort(
-                    this@RetrieveActivity,
-                    "请输入密码"
+                        this@RetrieveActivity,
+                        "请输入密码"
                 )
 
                 else -> {
@@ -88,7 +91,16 @@ class RetrieveActivity : AppCompatActivity(), RetrieveContract.View {
     }
 
     override fun retrieveSuccess() {
+        ToastUtil().showToastShort(this@RetrieveActivity, "密码设置成功")
         finish()
+    }
+
+    override fun showLoadingDialog() {
+        loadingDialog.show()
+    }
+
+    override fun hideLoadingDialog() {
+        loadingDialog.dismiss()
     }
 
 }

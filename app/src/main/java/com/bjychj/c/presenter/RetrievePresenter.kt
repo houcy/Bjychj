@@ -33,11 +33,13 @@ class RetrievePresenter constructor(context: Context, view: RetrieveContract.Vie
 
 
     override fun getCode(account: String) {
+        mView.showLoadingDialog()
         val observable = mService.getCode(account)
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Subscriber<CodeBean>(){
                 override fun onNext(t: CodeBean?) {
+                    mView.hideLoadingDialog()
                     val code = t!!.returnCode
                     when (code) {
                         Constants.ReturnSuccess -> mView.initCode(t.code)
@@ -55,6 +57,7 @@ class RetrievePresenter constructor(context: Context, view: RetrieveContract.Vie
                 }
 
                 override fun onError(e: Throwable?) {
+                    mView.hideLoadingDialog()
                     mView.showToast("请求错误,请稍后重试")
                 }
 
@@ -62,11 +65,13 @@ class RetrievePresenter constructor(context: Context, view: RetrieveContract.Vie
     }
 
     override fun doRetrieve(account: String, newPwd: String, code: String) {
+        mView.showLoadingDialog()
         val observable = mService.doRetrieve(account, newPwd, code)
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Subscriber<UsualBean>(){
                 override fun onNext(t: UsualBean?) {
+                    mView.hideLoadingDialog()
                     val returnCode = t!!.returnCode
                     when (returnCode) {
                         Constants.ReturnSuccess -> mView.retrieveSuccess()
@@ -83,6 +88,7 @@ class RetrievePresenter constructor(context: Context, view: RetrieveContract.Vie
                 }
 
                 override fun onError(e: Throwable?) {
+                    mView.hideLoadingDialog()
                     mView.showToast("请求错误,请稍后重试")
                 }
 

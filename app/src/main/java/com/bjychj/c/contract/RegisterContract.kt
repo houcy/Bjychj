@@ -15,5 +15,7 @@ interface RegisterContract {
         fun showToast(msg: String)
         fun initCode(code: String)
         fun registerSuccess()
+        fun showLoadingDialog()
+        fun hideLoadingDialog()
     }
 }

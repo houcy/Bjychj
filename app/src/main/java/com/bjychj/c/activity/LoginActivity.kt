@@ -8,17 +8,21 @@ import android.view.KeyEvent
 import com.bjychj.c.R
 import com.bjychj.c.contract.LoginContract
 import com.bjychj.c.presenter.LoginPresenter
+import com.bjychj.c.utils.LoadingDialog
 import com.bjychj.c.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
     private var presenter: LoginContract.Presenter? = null
     private var mExitTime: Long = 0
+    private lateinit var loadingDialog: LoadingDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         LoginPresenter(this, this)
+
+        loadingDialog = LoadingDialog(this@LoginActivity, R.style.MyDialog)
 
         //注册
         tvRegister.setOnClickListener {
@@ -69,5 +73,13 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun showLoadingDialog() {
+      loadingDialog.show()
+    }
+
+    override fun hideLoadingDialog() {
+       loadingDialog.dismiss()
     }
 }

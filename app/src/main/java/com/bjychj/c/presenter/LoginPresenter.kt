@@ -29,11 +29,13 @@ class LoginPresenter constructor(context: Context, view: LoginContract.View) : L
     }
 
     override fun doLogin(account: String, password: String) {
+        view.showLoadingDialog()
         val observable = service.getMainServer(account, password)
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<UsualBean>() {
                     override fun onNext(t: UsualBean?) {
+                        view.hideLoadingDialog()
                         val code = t!!.returnCode
 
                         when (code) {
@@ -51,6 +53,7 @@ class LoginPresenter constructor(context: Context, view: LoginContract.View) : L
                     }
 
                     override fun onError(e: Throwable?) {
+                        view.hideLoadingDialog()
                         view.showToast("请求错误,请稍后重试")
                     }
 

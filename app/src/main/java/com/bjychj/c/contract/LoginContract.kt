@@ -13,5 +13,7 @@ interface LoginContract {
         fun setPresenter(presenter: LoginContract.Presenter)
         fun showToast(msg:String)
         fun loginSuccess()
+        fun showLoadingDialog()
+        fun hideLoadingDialog()
     }
 }

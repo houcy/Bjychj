@@ -17,5 +17,7 @@ interface RetrieveContract {
         fun showToast(msg: String)
         fun initCode(code: String)
         fun retrieveSuccess()
+        fun showLoadingDialog()
+        fun hideLoadingDialog()
     }
 }
